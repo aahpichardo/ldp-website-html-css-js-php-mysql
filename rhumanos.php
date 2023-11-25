@@ -24,7 +24,7 @@
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
                 <div class="collapse navbar-collapse" id="navbarResponsive">
                     <ul class="navbar-nav ms-auto">
-                        <li class="nav-item"><a class="nav-link" href="index.html">Volver al inicio</a></li>
+                        <li class="nav-item"><a class="nav-link" href="index.php">Volver al inicio</a></li>
                     </ul>
                 </div>
             </div>
@@ -44,39 +44,75 @@
             <p>empleados</p>
             <div class="container mt-4">
                 <h2>Tabla de Empleados</h2>
-                
+                <a class="btn btn-primary btn-xl rounded-pill mt-5" data-bs-toggle="modal" data-bs-target="#nuevoEmpleado">Registrar nuevo empleado</a>
                 <!-- Agrega la clase 'table' de Bootstrap para estilos de tabla -->
                 <table class="table">
                   <thead class="thead-dark">
                     <tr>
+                      <th>ID</th>
                       <th>Nombre del Empleado</th>
                       <th>Puesto</th>
                       <th>Dirección</th>
                       <th>Teléfono</th>
+                      <th>Opciones</th>
                     </tr>
                   </thead>
                   <tbody>
                     <tr>
+                      <td>0</td>
                       <td>Empleado 1</td>
                       <td>Desarrollador</td>
-                      <td>2023-11-22</td>
-                      <td>2023-11-25</td>
+                      <td>Av. centro</td>
+                      <td>123</td>
+                      <td>
+                        <button class="button">Editar</button>
+                        </button>
+                        <button class="button">Eliminar</button>
+                      </td>
                     </tr>
-                    <!-- Puedes agregar más filas según sea necesario -->
+                    <?php
+                          require_once 'php/config.php';
+
+                          if (isset($_POST['id_to_delete'])) {
+                            $id_to_delete = $_POST['id_to_delete'];
+                            $mysqli->query("DELETE FROM empleados WHERE id = $id_to_delete");
+                          }
+                        
+                          $result = $mysqli->query('SELECT * FROM empleados');
+
+                          while ($row = $result->fetch_assoc())
+                          {
+                              echo "<tr>";
+                              echo "<th>" . $row['id'] . "</th>";
+                              echo "<td>" . $row['nombre'] . "</td>";
+                              echo "<td>" . $row['puesto'] . "</td>";
+                              echo "<td>" . $row['direccion'] . "</td>";
+                              echo "<td>" . $row['telefono'] . "</td>";
+                              echo "<td>";
+                              echo "<button class='button'>Editar</button>";
+                              echo "<form method='POST'>";
+                              echo "<input type='hidden' name='id_to_delete' value='" . $row['id_cliente'] . "'>";
+                              echo "<button type='submit' class='button'>Eliminar</button>";
+                              echo "</form>";
+                              echo "</td>";
+                              echo "</tr>";
+                          }
+                        ?>
                   </tbody>
                 </table>
               </div>
-            <a class="btn btn-primary btn-xl rounded-pill mt-5" data-bs-toggle="modal" data-bs-target="#nuevoEmpleado">Registrar nuevo empleado</a>
+        </div>
+        
             <!--RESERVACIONES-->
             <div class="container mt-4">
                 <p>reservas</p>
-                <h2>Tabla de Reservas</h2>
+                <h2>Tabla de Reservaciones</h2>
                 
                 <!-- Agrega la clase 'table' de Bootstrap para estilos de tabla -->
                 <table class="table" id="tablaReservaciones">
                     <thead class="thead-dark">
                       <tr>
-                        <th>*</th>
+                        <th>ID</th>
                         <th>Nombre</th>
                         <th>Número de personas</th>
                         <th>Fecha de llegada</th>
@@ -101,62 +137,42 @@
                           <button class="button">Eliminar</button>
                         </td>
                       </tr>
+                        <?php
+                          require_once 'php/config.php';
+
+                          if (isset($_POST['id_to_delete'])) {
+                            $id_to_delete = $_POST['id_to_delete'];
+                            $mysqli->query("DELETE FROM reservaciones WHERE id_cliente = $id_to_delete");
+                          }
+                        
+                          $result = $mysqli->query('SELECT * FROM reservaciones');
+
+                          while ($row = $result->fetch_assoc())
+                          {
+                              echo "<tr>";
+                              echo "<th>" . $row['id_cliente'] . "</th>";
+                              echo "<td>" . $row['nombre'] . "</td>";
+                              echo "<td>" . $row['numero_personas'] . "</td>";
+                              echo "<td>" . $row['fecha_entrada'] . "</td>";
+                              echo "<td>" . $row['fecha_salida'] . "</td>";
+                              echo "<td>" . $row['tipo_habitacion'] . "</td>";
+                              echo "<td>" . $row['costo_total'] . "</td>";
+                              echo "<td>";
+                              echo "<button class='button'>Editar</button>";
+                              echo "<form method='POST'>";
+                              echo "<input type='hidden' name='id_to_delete' value='" . $row['id_cliente'] . "'>";
+                              echo "<button type='submit' class='button'>Eliminar</button>";
+                              echo "</form>";
+                              echo "</td>";
+                              echo "</tr>";
+                          }
+                        ?>
                     </tbody>
                   </table>
             </div>
         </div>
+        
 
-
-        <!--MODAL EDITAR RESERVACION-->
-                 <!--MODALES-->
-    <div class="modal fade" id="editarReservacionModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" style="backdrop-filter: blur(2px);">
-      <div class="modal-dialog">
-    <div class="modal-content bg-dark">
-      <div class="modal-header" style="background-color: #96d1fb;">
-        <h1 class="modal-title fs-5" id="exampleModalLabel">Reservación</h1>
-        <button type="button" class="btn-close btn-close-dark" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body" style="background-color: #96d1fb;">
-          <div class="section3">
-                  <!-- Formulario-->
-                  <form id="formulario-reservacion" onsubmit="addReservation(event)">
-                      <div class="mb-3">
-                          <label for="editar-nombre-persona-reservacion" class="form-label">Nombre</label>
-                          <input type="text" class="form-control" name="editar-nombre-persona-reservacion" id="editar-nombre-persona-reservacion">
-                      </div>
-              
-                      <div class="mb-3">
-                          <label for="editar-numero-personas-reservacion" class="form-label">Número de personas</label>
-                          <input type="number" class="form-control" name="editar-numero-personas-reservacion" id="editar-numero-personas-reservacion">
-                      </div>
-
-                      <div class="mb-3">
-                          <label for="editar-fecha-llegada-reservacion" class="form-label">Fecha de llegada</label>
-                          <input type="date" class="form-control" name="editar-fecha-llegada-reservacion" id="editar-fecha-llegada-reservacion">
-                      </div>
-
-                      <div class="mb-3">
-                          <label for="editar-fecha-salida-reservacion" class="form-label">Fecha de salida</label>
-                          <input type="date" class="form-control" name="editar-fecha-salida-reservacion" id="editar-fecha-salida-reservacion">
-                      </div>
-
-                      <div class="mb-3">
-                          <p>Tipo de habitación</p>
-                          <select class="form-control" id="editar-tipo-habitacion-reservacion" name="editar-tipo-habitacion-reservacion">
-                              <option value="ninguna">Seleccionar</option>
-                              <option value="plata">Plata</option>
-                              <option value="plataPlus">Plata Plus</option>
-                            </select>
-                      </div>
-              
-                      <button type="submit" id="editar-boton-reservacion" class="btn btn-primary">Editar reservacion</button>
-                  </form>
-          </div>
-      </div>
-    </div>
-  </div>
-</div>
-  <!--FIN MODALES-->
         <!-- Contennido de Restaurante-->
         <div class="container">
             <p>pedidos restaurante</p>
