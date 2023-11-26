@@ -51,7 +51,10 @@ if($stmt->execute()){
 
     // Guardar el PDF en un archivo
     $pdf->Output('C:\Users\German\Downloads\reservacion.pdf', 'F'); //aqui pongo la ruta donde se guardara el pdf
-    echo "<br><a href='/lunaDePlataResortphp/index.php'><button>Volver al inicio</button></a>"; // Asegúrate de que 'index.php' sea la página de inicio de tu sitio web
+    echo "<div class='text-center mt-3'>";
+    echo"<h1>Reservación registrada exitosamente.</h1>";
+    echo "<a href='/lunaDePlataResortphp/index.php' class='btn btn-success'>Volver al inicio</a>";
+    echo "</div>";
 } else{
     echo "Algo salió mal. Por favor, intenta de nuevo.";
 }
@@ -59,3 +62,16 @@ if($stmt->execute()){
 $stmt->close();
 
 ?>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="/lunaDePlataResortphp/css/styles.css" rel="stylesheet" />
+    <title>Reservacion exitosa</title>
+</head>
+<body>
+    
+</body>
+</html>
