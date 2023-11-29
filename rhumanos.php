@@ -73,10 +73,10 @@
                     <?php
                           require_once 'php/config.php';
 
-                          if (isset($_POST['id_to_delete'])) {
-                              $id_to_delete = $_POST['id_to_delete'];
-                              $mysqli->query("DELETE FROM empleados WHERE id = $id_to_delete");
-                          }
+                          if (isset($_POST['id_to_delete_empleados'])) {
+                            $id_to_delete = $_POST['id_to_delete_empleados'];
+                            $mysqli->query("DELETE FROM empleados WHERE id = $id_to_delete");
+                        }
 
                           $result = $mysqli->query('SELECT * FROM empleados');
 
@@ -94,7 +94,7 @@
                               echo "<a href='php/editar_empleado.php?id=" . $row['id'] . "' class='btn btn-warning me-3'><i class='bi bi-pencil-fill'></i></a>";
                               
                               echo "<form method='POST'>";
-                              echo "<input type='hidden' name='id_to_delete' value='" . $row['id'] . "'>";
+                              echo "<input type='hidden' name='id_to_delete_empleados' value='" . $row['id'] . "'>";
                               echo "<button type='submit' class='btn btn-danger'><i class='bi bi-trash-fill'></i></button>";
                               echo "</form>";
                               echo "</div>";
@@ -191,10 +191,10 @@
                         <?php
                           require_once 'php/config.php';
 
-                          if (isset($_POST['id_to_delete'])) {
-                            $id_to_delete = $_POST['id_to_delete'];
+                          if (isset($_POST['id_to_delete_reservaciones'])) {
+                            $id_to_delete = $_POST['id_to_delete_reservaciones'];
                             $mysqli->query("DELETE FROM reservaciones WHERE id_cliente = $id_to_delete");
-                          }
+                        }
                         
                           $result = $mysqli->query('SELECT * FROM reservaciones');
 
@@ -210,7 +210,7 @@
                               echo "<td>" . $row['costo_total'] . "</td>";
                               echo "<td>";
                               echo "<form method='POST'>";
-                              echo "<input type='hidden' name='id_to_delete' value='" . $row['id_cliente'] . "'>";
+                              echo "<input type='hidden' name='id_to_delete_reservaciones' value='" . $row['id_cliente'] . "'>";
                               echo "<button type='submit' class='btn btn-danger'><i class='bi bi-trash-fill'></i></button>";
                               echo "</form>";
                               echo "</td>";
