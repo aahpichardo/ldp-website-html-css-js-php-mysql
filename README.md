@@ -1,2 +1,2 @@
 # Luna de Plata Resort
-Sitio web demostrativo de un hotel con posibilidad de hacer reservacion tanto en el hotel, cocina e imprimir ticket en pdf.
+A demonstrative website for a hotel with the possibility to make a reservation in the hotel and restaurant, and print a ticket in a PDF file.
